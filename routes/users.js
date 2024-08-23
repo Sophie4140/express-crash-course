@@ -1,17 +1,36 @@
+const { db } = require("../src/drizzle/db");
 const express = require("express");
 const router = express.Router();
+const { UserTable } = require("../src/drizzle/schema");
 
 router.get("/", (req, res) => {
   console.log(req.query.name);
+  // db.users.find({ name: req.query.name }).then((users) => {
   res.send("user");
 });
 
-router.post("/", (req, res) => {
-  const isValid = true;
-  if (isValid) {
-    users.push({ name: req.body.username });
-    res.redirect(`users/${users.length - 1}`);
+router.get("/list", async (req, res) => {
+  const users = await db
+    .select({
+      columns: { name: true, age: true },
+    })
+    .from(UserTable);
+  if (users.length > 0) {
+    res.render("users/userList", { users });
   } else {
+    res.render("users/new");
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    await db.insert.UserTable.values({
+      name: req.body.name,
+      age: req.body.age,
+    });
+    res.redirect("users/list");
+    // res.redirect(`users/${users.length - 1}`);
+  } catch (e) {
     console.log("error");
     res.render("users/new", { username: req.body.username });
   }

@@ -9,7 +9,11 @@
     <form action="/users" method="POST">
         <label> username
         <input type="text" name="username" value="<%= locals.username %>"/>
-    </label>
+        </label>
+        <label>
+            age
+            <input type="number" name="age" value="<%= locals.age %>"/>
+        </label>
     <button type="submit">submit</button>
     </form>
     

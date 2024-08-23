@@ -16,7 +16,7 @@ app.get("/", logger, (req, res, next) => {
   // res.status(500).send("Something broke!");
   // res.status(500).json({ message: "Something broke!" });
   // res.download("server.js");
-  // res.render("index", { title: "Home" });
+  // res.render("index");
 });
 
 app.get("users", (req, res) => {
